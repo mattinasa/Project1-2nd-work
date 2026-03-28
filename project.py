@@ -1,3 +1,14 @@
+class Student:
+    def __init__(self,name,classNum,id,gender,college):#一个初始化，来存储除了“序号”以外的信息
+        self.name=name
+        self.classNum=classNum
+        self.id=id
+        self.gender=gender
+        self.college=college
+
+    def __str__(self):#用于友好输出，不然就会输出我们看不懂的东西
+        return f"姓名：{self.name} 班级：{self.classNum} 学号：{self.id} 性别：{self.gender} 学院：{self.college}"
+
 class ExamSystem:
     def __init__(self,filename):
         self.filename = filename
