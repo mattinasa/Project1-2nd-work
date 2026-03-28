@@ -92,6 +92,31 @@ class ExamSystem:
         except Exception as e:
             print(f"生成考场安排时发生错误：{e}")
 
+    def Create_adtickets(self,students_list):
+        try:
+            #如果不存在，那就创建，已存在的需要先清理
+            folder_name="准考证.txt"
+            if not os.path.exists(folder_name):
+                os.mkdir(folder_name)
+                print(f"已创建文件夹：{folder_name}")
+
+            #接着在该文件夹下面创建独立的准考证文件
+            for i,student in enumerate(self.students_list):
+                filename=os.path.join(folder_name,f"{i:02d}.txt")#格式要求是两位，并且要是一位就0开头，所以02d
+                with open(filename,'w',encoding='utf-8') as f:
+                    f.write(f"考场座位号：{i}\n")
+                    f.write(f"姓名：{student.name}\n")
+                    f.write(f"学号：{student.id}\n")
+
+            print("已成功创建准考证！")
+
+        except Exception as e:
+            print(f"生成准考证的时候发生错误：{e}")
+
+
+
+
+
 
 
 
