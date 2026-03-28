@@ -1,6 +1,8 @@
 ###git目录C:\Users\13025\Desktop\大学\大一下学期\人工智能导论\week4\StudentsCheck
 import os
-import re #因为txt文本有\t也有空格，所以要标准化输入
+import time
+import random
+import re#因为txt文本有\t也有空格，所以要标准化输入
 class Student:
     def __init__(self,name,classNum,id,gender,college):#一个初始化，来存储除了“序号”以外的信息
         self.name=name
@@ -34,8 +36,8 @@ class ExamSystem:
                     college=parts[5]
                     self.students[id] = Student(name,classNum,id,gender,college)#以学号为索引来输出吧
 
-                    #调试
-                    print(self.students[id].__str__())
+                    # #调试
+                    # print(self.students[id].__str__())
 
 
         except FileNotFoundError:
@@ -56,8 +58,25 @@ class ExamSystem:
             print("没有找到这个学号的人哦！")#友好提示
             return None
 
+    def random_call(self,count):
+        total=len(self.students)
+        if total<count:
+            print("Sorry!输入的数字超过总人数了哦！")
+            return []
+        if count.isdigit()==False:
+            print("Sorry!需要输入数字！")
+            return []
+        if count<=0:
+            print("Sorry!请输入正数！")
+            return []
+        all_students=list(self.students.values())
+        selected=random.sample(all_students,count)
+        return selected
+
+
 # #这是个调试
 # try:
 #     system = ExamSystem("人工智能编程语言学生名单.txt")
 # except FileNotFoundError:
 #     print("File not found")
+
