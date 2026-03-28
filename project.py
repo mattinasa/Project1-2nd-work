@@ -71,7 +71,7 @@ class ExamSystem:
             print("Sorry!请输入正数！")
             return []
         all_students=list(self.students.values())
-        selected=random.sample(all_students,count)
+        selected=random.sample(all_students,count)#随机生成列表中count个元素
         return selected
 
     def generate_seating(self):
@@ -96,15 +96,15 @@ class ExamSystem:
         try:
             #如果不存在，那就创建，已存在的需要先清理
             folder_name="准考证.txt"
-            if not os.path.exists(folder_name):
-                os.mkdir(folder_name)
+            if not os.path.exists(folder_name):#不存在就创建
+                os.mkdir(folder_name)#创建
                 print(f"已创建文件夹：{folder_name}")
 
             #接着在该文件夹下面创建独立的准考证文件
-            for i,student in enumerate(self.students_list):
-                filename=os.path.join(folder_name,f"{i:02d}.txt")#格式要求是两位，并且要是一位就0开头，所以02d
+            for i,student in enumerate(students_list):
+                filename=os.path.join(folder_name,f"{i+1:02d}.txt")#格式要求是两位，并且要是一位就0开头，所以02d
                 with open(filename,'w',encoding='utf-8') as f:
-                    f.write(f"考场座位号：{i}\n")
+                    f.write(f"考场座位号：{i+1}\n")#以下是写入信息
                     f.write(f"姓名：{student.name}\n")
                     f.write(f"学号：{student.id}\n")
 
@@ -159,19 +159,16 @@ def main():
             except ValueError:
                 print("错误：请输入有效的数字！")
 
-        elif choice == "3":
-            # 生成考场安排表和准考证
+        elif choice == "3": #生成考场安排表和准考证
             print("\n正在生成考场安排表...")
             seating_list = system.generate_seating()
             system.save_seating(seating_list)
-
-            print("\n正在生成准考证文件...")
+            print("\n正在生成准考证文件...")#相关联所以这几个操作一起做了
             system.Create_adtickets(seating_list)
 
             print("\n所有文件生成完成！请查看程序根目录下的文件。")
 
-        elif choice == "4":
-            # 退出系统
+        elif choice == "5":#用于退出系统
             print("感谢使用，再见！")
             break
 
