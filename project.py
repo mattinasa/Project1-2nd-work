@@ -60,11 +60,12 @@ class ExamSystem:
 
     def random_call(self,count):
         total=len(self.students)
-        if total<count:
-            print("Sorry!输入的数字超过总人数了哦！")
-            return []
         if count.isdigit()==False:
             print("Sorry!需要输入数字！")
+            return []
+        count=int(count)
+        if total<count:
+            print("Sorry!输入的数字超过总人数了哦！")
             return []
         if count<=0:
             print("Sorry!请输入正数！")
@@ -73,10 +74,36 @@ class ExamSystem:
         selected=random.sample(all_students,count)
         return selected
 
+    def generate_seating(self):
+        all_students=list(self.students.values())
+        random.shuffle(all_students)#内置的随机打乱函数
+        return all_students
+
+    def save_seating(self,student_list):
+        try:
+            generate_time=time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())#用标准格式来生成现在时间
+            with open("考场安排表.txt",'w',encoding='utf-8') as f:
+                f.write(f"生成时间{generate_time}\n")
+                f.write(f"座位\t姓名\t学号\n")
+                for i,student in enumerate(student_list):
+                    f.wirte(f"{i}\t{student.name}\t{student.id}\n")
+            print("考场安排生成成功！")#温馨的提示
+
+        except Exception as e:
+            print(f"生成考场安排时发生错误：{e}")
+
+
+
+
+
+
 
 # #这是个调试
 # try:
 #     system = ExamSystem("人工智能编程语言学生名单.txt")
+#     selected=system.random_call("2")
+#     for student in selected:
+#         print(student.name)
 # except FileNotFoundError:
 #     print("File not found")
 
