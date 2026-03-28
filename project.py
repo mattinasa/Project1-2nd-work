@@ -24,7 +24,7 @@ class ExamSystem:
             with open(self.filename,'r',encoding='utf-8') as f:#尝试打开文件
                 lines = f.readlines()#读取学生信息
                 lines=lines[1:]#去掉表头
-                print(len(lines))
+                # print(len(lines))
                 for line in lines:#枚举每一个学生
                     parts=re.split(r'\s+',line.strip())
                     name=parts[1]
@@ -45,6 +45,16 @@ class ExamSystem:
     @staticmethod
     def validate(student_id):#一个简单的id基础格式校验，要求就是纯数字
         return student_id.isdigit()#判断是不是纯数字
+
+    def find_students(self,student_id):#用于输入学号后输出这个学生的其他信息哦！
+        if not self.validate(student_id):
+            print("学号应为纯数字哦！")#友好提示
+            return None
+        try:#进行一次温和的try
+            return self.students[student_id]
+        except KeyError:
+            print("没有找到这个学号的人哦！")#友好提示
+            return None
 
 # #这是个调试
 # try:
