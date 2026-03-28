@@ -18,7 +18,7 @@ class ExamSystem:
     def loading(self):
 
         try:
-            with open(self.filename,'r') as f:#尝试打开文件
+            with open(self.filename,'r',encoding='utf-8') as f:#尝试打开文件
                 lines = f.readlines()#读取学生信息
 
                 for i in range(1,len(lines)):#枚举每一个学生
