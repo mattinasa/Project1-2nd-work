@@ -86,7 +86,7 @@ class ExamSystem:
                 f.write(f"生成时间{generate_time}\n")
                 f.write(f"座位\t姓名\t学号\n")
                 for i,student in enumerate(student_list):
-                    f.wirte(f"{i}\t{student.name}\t{student.id}\n")
+                    f.write(f"{i+1}\t{student.name}\t{student.id}\n")
             print("考场安排生成成功！")#温馨的提示
 
         except Exception as e:
@@ -113,9 +113,73 @@ class ExamSystem:
         except Exception as e:
             print(f"生成准考证的时候发生错误：{e}")
 
+def main():
+    #这是主函数，用于用户交互，即输入输出
+    print("="*50)#这是方便观看
+    print("欢迎使用学生考试管理系统")
+    print("=" * 50)
 
+    # 创建考试系统实例
+    try:
+        system = ExamSystem("人工智能编程语言学生名单.txt")
+    except Exception as e:
+        print(f"系统初始化失败：{e}")
+        return
 
+    # 主循环
+    while True:
+        print("\n请选择功能：")
+        print("1. 查找学生信息")
+        print("2. 随机点名")
+        print("3. 生成考场安排表和准考证")
+        print("4. 退出系统")
 
+        choice = input("请输入选项（1-4）：").strip()
+
+        if choice == "1":# 查找学生功能
+            student_id = input("请输入学号：").strip()
+            student = system.find_students(student_id)
+
+            if student:
+                print("\n查询结果：")
+                print(student)
+
+        elif choice == "2":# 随机点名功能
+            try:
+                count = input("请输入需要点名的学生数量：").strip()
+                selected = system.random_call(count)
+
+                if selected:
+                    print(f"\n随机点名的 {count} 名学生：")
+                    print("-" * 40)
+                    for i, student in enumerate(selected, start=1):
+                        print(f"{i}. {student.name}（学号：{student.id}）")
+                    print("-" * 40)
+
+            except ValueError:
+                print("错误：请输入有效的数字！")
+
+        elif choice == "3":
+            # 生成考场安排表和准考证
+            print("\n正在生成考场安排表...")
+            seating_list = system.generate_seating()
+            system.save_seating(seating_list)
+
+            print("\n正在生成准考证文件...")
+            system.Create_adtickets(seating_list)
+
+            print("\n所有文件生成完成！请查看程序根目录下的文件。")
+
+        elif choice == "4":
+            # 退出系统
+            print("感谢使用，再见！")
+            break
+
+        else:
+            print("错误：无效选项，请重新选择！")
+
+if __name__ == "__main__":
+    main()
 
 
 
